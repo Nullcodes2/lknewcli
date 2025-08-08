@@ -14,7 +14,8 @@ app.register(authRoutes, { prefix: '/auth' });
 
 // simple auth middleware for subsequent routes
 app.addHook('preHandler', (req, reply, done) => {
-  if (req.url.startsWith('/auth')) return done();
+  const url = req.url.replace(/^\/api/, '');
+  if (url.startsWith('/auth')) return done();
   const auth = req.headers.authorization;
   if (!auth) {
     reply.code(401).send({ error: 'Unauthorized' });
