@@ -10,11 +10,13 @@ import { sessions } from './db';
 const app = Fastify({ logger: true });
 
 app.register(FastifySocketIO);
-app.register(authRoutes, { prefix: '/auth' });
+// expose all API routes under the `/api` prefix to align with frontend requests
+app.register(authRoutes, { prefix: '/api/auth' });
 
 // simple auth middleware for subsequent routes
 app.addHook('preHandler', (req, reply, done) => {
-  if (req.url.startsWith('/auth')) return done();
+  const url = req.url.replace(/^\/api/, '');
+  if (!url || url.startsWith('/auth')) return done();
   const auth = req.headers.authorization;
   if (!auth) {
     reply.code(401).send({ error: 'Unauthorized' });
@@ -30,11 +32,11 @@ app.addHook('preHandler', (req, reply, done) => {
   done();
 });
 
-app.register(botRoutes, { prefix: '/bots' });
-app.register(messageRoutes, { prefix: '/messages' });
-app.register(tagRoutes, { prefix: '/tags' });
+app.register(botRoutes, { prefix: '/api/bots' });
+app.register(messageRoutes, { prefix: '/api/messages' });
+app.register(tagRoutes, { prefix: '/api/tags' });
 
-app.get('/', async () => ({ status: 'ok' }));
+app.get('/api', async () => ({ status: 'ok' }));
 
 // socket.io plugin is available only after the server is ready
 app.ready(err => {
