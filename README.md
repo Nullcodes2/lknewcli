@@ -26,17 +26,3 @@ npm install
 npm run dev
 ```
 
-## Deploying on Vercel
-
-This repo includes a `vercel.json` configuration for a monorepo setup:
-
-- `frontend` is built as a static site.
-- `backend` is exposed under `/api` as a serverless function with Socket.IO support.
-
-For local development, set `VITE_API_BASE=http://localhost:3000` in `frontend/.env` so the UI can reach the dev backend. In production on Vercel no configuration is required since the frontend will call the `/api` routes directly.
-
-Deploy by running:
-
-```
-vercel --prod
-```

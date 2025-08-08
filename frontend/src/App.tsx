@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
-const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 
-const api = async (path: string, method = 'GET', body?: any, token?: string) => {
-  const res = await fetch(`${API_BASE}${path}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
@@ -56,9 +53,6 @@ export default function App() {
     if (!token || !chatId) return;
     const msgs = await api(`/messages/${chatId}`, 'GET', undefined, token);
     setMessages(msgs);
-    const socketUrl = API_BASE === '/api' ? undefined : API_BASE;
-    const socketPath = API_BASE === '/api' ? '/api/socket.io' : '/socket.io';
-    const s = io(socketUrl, { path: socketPath, auth: { token } });
     s.emit('join', chatId);
     s.on('message', (msg: any) => {
       if (msg.chatId === chatId) {
