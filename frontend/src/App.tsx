@@ -92,9 +92,9 @@ export default function App() {
 
     if (!token) {
       return (
-        <div className="min-h-full flex items-center justify-center p-4">
-          <div className="w-full max-w-sm space-y-4 bg-gray-800 p-6 rounded shadow">
-            <h1 className="text-3xl font-bold text-center">Login</h1>
+        <div className="min-h-full flex items-center justify-center">
+          <div className="w-full max-w-sm space-y-6 p-8 bg-gray-800 border border-gray-700 rounded">
+            <h1 className="text-2xl font-semibold text-center">Sign in</h1>
             <input
               className="w-full px-3 py-2 rounded bg-gray-700 border border-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Email"

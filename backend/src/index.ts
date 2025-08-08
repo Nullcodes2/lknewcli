@@ -10,7 +10,7 @@ import { sessions } from './db';
 const app = Fastify({ logger: true });
 
 app.register(FastifySocketIO);
-app.register(authRoutes, { prefix: '/auth' });
+app.register(authRoutes, { prefix: '/api/auth' });
 
 // simple auth middleware for subsequent routes
 app.addHook('preHandler', (req, reply, done) => {
@@ -31,11 +31,11 @@ app.addHook('preHandler', (req, reply, done) => {
   done();
 });
 
-app.register(botRoutes, { prefix: '/bots' });
-app.register(messageRoutes, { prefix: '/messages' });
-app.register(tagRoutes, { prefix: '/tags' });
+app.register(botRoutes, { prefix: '/api/bots' });
+app.register(messageRoutes, { prefix: '/api/messages' });
+app.register(tagRoutes, { prefix: '/api/tags' });
 
-app.get('/', async () => ({ status: 'ok' }));
+app.get('/api', async () => ({ status: 'ok' }));
 
 // socket.io plugin is available only after the server is ready
 app.ready(err => {
