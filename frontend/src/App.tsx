@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
-
+const api = async (
+  path: string,
+  method = 'GET',
+  body?: any,
+  token?: string,
+) => {
+  const res = await fetch(`/api${path}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
@@ -53,6 +59,7 @@ export default function App() {
     if (!token || !chatId) return;
     const msgs = await api(`/messages/${chatId}`, 'GET', undefined, token);
     setMessages(msgs);
+    const s = io({ auth: { token } });
     s.emit('join', chatId);
     s.on('message', (msg: any) => {
       if (msg.chatId === chatId) {
