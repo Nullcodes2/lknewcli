@@ -36,9 +36,13 @@ app.register(tagRoutes, { prefix: '/tags' });
 
 app.get('/', async () => ({ status: 'ok' }));
 
-(app as any).io.on('connection', (socket: any) => {
-  socket.on('join', (chatId: string) => {
-    socket.join(`chat:${chatId}`);
+// socket.io plugin is available only after the server is ready
+app.ready(err => {
+  if (err) throw err;
+  (app as any).io.on('connection', (socket: any) => {
+    socket.on('join', (chatId: string) => {
+      socket.join(`chat:${chatId}`);
+    });
   });
 });
 
